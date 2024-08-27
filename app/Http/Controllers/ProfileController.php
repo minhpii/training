@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ScoreByCourseRequest;
 use App\Repositories\Courses\CourseInterface;
 use App\Repositories\Students\StudentInterface;
 use Illuminate\Http\Request;
@@ -20,15 +21,15 @@ class ProfileController extends Controller
     }
     public function index($id)
     {
-        $data = $this->stuRepo->myCourse($id);
-        return view("student.index", $data);
+        $student = $this->stuRepo->findOrFail($id);
+        $courses = $this->couRepo->getAll();
+        return view("student.index", compact('student', 'courses'));
     }
 
     public function showRegisterCourse()
     {
         $courses = $this->couRepo->getCoursePerPage(10);
         $student = $this->stuRepo->findOrFail(Auth::user()->student->id);
-
         return view("student.register-course", compact("courses", "student"));
     }
 
@@ -53,12 +54,9 @@ class ProfileController extends Controller
         return redirect()->route("register.course")->with("success", "Unregister course successfully!");
     }
 
-    public function updateScore(Request $request, $id)
+    public function updateScore(ScoreByCourseRequest $request, $id)
     {
-        $this->stuRepo->updateScore($id, $request->input("listScoreCourse"));
-        session()->flash("success", "Update score successfully!");
-        return response()->json([
-            'redirect_url' => url('profile', $id),
-        ]);
+        $this->stuRepo->updateScore($id, $request->all());
+        return redirect()->route("profile", $id)->with("success", "Update score by course successfully!");
     }
 }

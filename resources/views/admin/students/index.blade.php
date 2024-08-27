@@ -33,46 +33,39 @@
             <div class="row align-items-start">
               <div class="col-3">
                 {!! Form::label('from_age', 'From Age:') !!}
-                {!! Form::text('from_age', $input['from_age'] ?? '', [
+                {!! Form::text('from_age', old('from_age'), [
                     'class' => 'form-control',
                     'placeholder' => 'Enter age..',
                 ]) !!}
-                @error('from_age')
-                  <span class="ps-6 mt-2 text-danger">{{ $message }}</span>
-                @enderror
               </div>
               <div class="col-3">
                 {!! Form::label('to_age', 'To Age:') !!}
-                {!! Form::text('to_age', $input['to_age'] ?? '', ['class' => 'form-control', 'placeholder' => 'Enter age..']) !!}
-                @error('to_age')
-                  <span class="ps-6 mt-2 text-danger">{{ $message }}</span>
-                @enderror
+                {!! Form::text('to_age', old('to_age'), ['class' => 'form-control', 'placeholder' => 'Enter age..']) !!}
               </div>
               <div class="col-3">
                 {!! Form::label('from_score', 'Form Score:') !!}
-                {!! Form::text('from_score', $input['from_score'] ?? '', [
+                {!! Form::number('from_score', old('from_score'), [
                     'class' => 'form-control',
                     'placeholder' => 'Enter age..',
+                    'min' => 0,
+                    'max' => 10
                 ]) !!}
-                @error('from_score')
-                  <span class="ps-6 mt-2 text-danger">{{ $message }}</span>
-                @enderror
               </div>
               <div class="col-3">
                 {!! Form::label('to_score', 'To Score:') !!}
-                {!! Form::text('to_score', $input['to_score'] ?? '', [
+                {!! Form::number('to_score', old('to_score'), [
                     'class' => 'form-control',
                     'placeholder' => 'Enter age..',
+                    'min' => 0,
+                    'max' => 10
                 ]) !!}
-                @error('to_score')
-                  <span class="ps-6 mt-2 text-danger">{{ $message }}</span>
-                @enderror
               </div>
               <div class="col-3">
                 {!! Form::label('type_phone', 'Type Phone:') !!}
-                {!! Form::select('type_phone', $typePhones, $input['type_phone'] ?? '', [
+                {!! Form::select('type_phone[]', $typePhones, old('type_phone[]'), [
                     'class' => 'form-control',
                     'placeholder' => '--- Choose type phone ---',
+                    'multiple' => true
                 ]) !!}
               </div>
               <div class="col-3">
@@ -80,7 +73,7 @@
                 {!! Form::select(
                     'record',
                     ['100' => '100 records', '1000' => '1000 records', '3000' => '3000 records'],
-                    $input['record'] ?? '',
+                    old('record'),
                     [
                         'class' => 'form-control',
                         'placeholder' => '--- Choose record ---',

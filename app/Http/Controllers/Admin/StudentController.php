@@ -30,9 +30,8 @@ class StudentController extends Controller
         $students = $this->stuRepo->getStudent($request->all());
         $typePhones = TypePhoneEnum::toArray();
         $departments = $this->depRepo->getDepartmentByName();
-        $input = $request->all();
 
-        return view("admin.students.index", compact("students", "typePhones", "departments", "input"));
+        return view("admin.students.index", compact("students", "typePhones", "departments"));
    }
 
     /**

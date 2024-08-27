@@ -12,8 +12,6 @@ interface StudentInterface extends BaseInterface
 
   public function update($id, $attributes);
 
-  public function myCourse($idStudent);
-
   public function registerCourse($idCourse);
 
   public function unRegisterCourse($idCourse);

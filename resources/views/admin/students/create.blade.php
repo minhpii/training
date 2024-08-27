@@ -107,6 +107,8 @@
             <div class="mt-3">
               {!! Form::label('avatar', 'Avatar') !!}
               {!! Form::file('avatar', ['class' => 'form-control']) !!}
+              <img id="avatar-preview" src="" alt="Image Preview"
+                style="display:none; max-width: 200px; margin-top: 10px;">
               @error('avatar')
                 <span class="ps-6 mt-2 text-danger">{{ $message }}</span>
               @enderror
@@ -133,3 +135,27 @@
     </div>
   </div>
 @endsection
+
+@push('scripts')
+  <script>
+    $(document).ready(function() {
+      $('#avatar').on('change', function(event) {
+        var file = event.target.files[0];
+
+        if (file) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+            $('#avatar-preview').attr('src', e.target.result);
+            $('#avatar-preview').css('display', 'block');
+          }
+
+          reader.readAsDataURL(file);
+        } else {
+          $('#avatar-preview').css('display', 'none');
+          $('#avatar-preview').attr('src', '');
+        }
+      });
+    });
+  </script>
+@endpush
