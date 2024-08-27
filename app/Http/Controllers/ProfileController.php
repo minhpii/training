@@ -22,8 +22,9 @@ class ProfileController extends Controller
     public function index($id)
     {
         $student = $this->stuRepo->findOrFail($id);
+        $myCourses = $student->courses()->get();
         $courses = $this->couRepo->getAll();
-        return view("student.index", compact('student', 'courses'));
+        return view("student.index", compact('student', 'myCourses' ,'courses'));
     }
 
     public function showRegisterCourse()

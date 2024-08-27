@@ -200,7 +200,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
       })
       ->toArray();
  
-      $student->courses()->syncWithoutDetaching($syncData);
+      $student->courses()->sync($syncData);
  
       DB::commit();
       return true;
