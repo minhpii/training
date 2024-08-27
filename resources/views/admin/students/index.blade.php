@@ -48,7 +48,7 @@
                     'class' => 'form-control',
                     'placeholder' => 'Enter age..',
                     'min' => 0,
-                    'max' => 10
+                    'max' => 10,
                 ]) !!}
               </div>
               <div class="col-3">
@@ -57,15 +57,14 @@
                     'class' => 'form-control',
                     'placeholder' => 'Enter age..',
                     'min' => 0,
-                    'max' => 10
+                    'max' => 10,
                 ]) !!}
               </div>
               <div class="col-3">
                 {!! Form::label('type_phone', 'Type Phone:') !!}
                 {!! Form::select('type_phone[]', $typePhones, old('type_phone[]'), [
                     'class' => 'form-control',
-                    'placeholder' => '--- Choose type phone ---',
-                    'multiple' => true
+                    'multiple' => true,
                 ]) !!}
               </div>
               <div class="col-3">
@@ -80,7 +79,14 @@
                     ],
                 ) !!}
               </div>
-              <div class="col-6 mt-4">
+              <div class="col-3">
+                {!! Form::label('status', 'Status:') !!}
+                {!! Form::select('status[]', ['0' => 'Studying', '1' => 'Finished', '2' => 'Learn Again'], old('type_phone[]'), [
+                    'class' => 'form-control',
+                    'multiple' => true,
+                ]) !!}
+              </div>
+              <div class="col-3 mt-4">
                 <div class="d-flex justify-content-end">
                   {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
                 </div>
@@ -138,7 +144,7 @@
                       @if ($student->status == 0)
                         Studying
                       @elseif ($student->status == 1)
-                        Finished studying
+                        Finished
                       @else
                         Learn Again
                       @endif

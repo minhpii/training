@@ -65,6 +65,10 @@ class StudentRepository extends BaseRepository implements StudentInterface
       $students->where('phone', 'regexp', implode('|', $patterns));
     }
 
+    if (isset($param['status'])) {
+      $students = $students->whereIn('status', $param['status']);
+    }
+
     $perPage = isset($param['record']) ? $param['record'] : 10;
 
     return $students->paginate($perPage);

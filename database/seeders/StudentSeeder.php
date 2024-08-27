@@ -31,7 +31,7 @@ class StudentSeeder extends Seeder
             $user->assignRole($adminRole);
         }
 
-        for ($i = 0; $i < 3000; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $user1 = User::create([
                 "name" => fake()->name,
                 "email" => fake()->unique()->safeEmail,

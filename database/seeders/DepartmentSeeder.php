@@ -15,7 +15,7 @@ class DepartmentSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             Department::create([
-                "name"=> 'Department ' . fake()->unique()->numerify('###')
+                "name"=> 'Department ' . fake()->regexify('[A-Za-z]{1}')
             ]);
         }
     }
