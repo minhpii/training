@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImportScoreRequest extends FormRequest
+class MessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,9 +21,8 @@ class ImportScoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            "file"=> "required|mimes:xlsx",
+        return [
+            "message" => "required"
         ];
-        return $rules;
     }
 }

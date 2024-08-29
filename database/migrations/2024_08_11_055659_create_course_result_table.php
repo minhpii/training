@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->double("score")->nullable();
             $table->timestamps();
+
+            $table->unique(['student_id', 'course_id']);
         });
     }
 

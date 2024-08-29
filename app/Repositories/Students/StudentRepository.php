@@ -54,16 +54,29 @@ class StudentRepository extends BaseRepository implements StudentInterface
     }
 
     if (isset($param['type_phone'])) {
-      $patterns = array_map(function ($type) {
-        return match ($type) {
-          'viettel' => '^(03|09)[0-9]{8}$',
-          'mobie' => '^(02|08)[0-9]{8}$',
-          default => '^(07)[0-9]{8}$',
-        };
-      }, $param['type_phone']);
-
-      $students->where('phone', 'regexp', implode('|', $patterns));
+      $students->where(function ($query) use ($param) {
+        foreach ($param['type_phone'] as $type) {
+          $pattern = match ($type) {
+            'viettel' => '^(03|09)[0-9]{8}$',
+            'mobie' => '^(02|08)[0-9]{8}$',
+            default => '^(07)[0-9]{8}$',
+          };
+          $query->orWhere('phone', 'regexp', $pattern);
+        }
+      });
     }
+
+    // if (isset($param['type_phone'])) {
+    //   $patterns = array_map(function ($type) {
+    //     return match ($type) {
+    //       'viettel' => '^(03|09)[0-9]{8}$',
+    //       'mobie' => '^(02|08)[0-9]{8}$',
+    //       default => '^(07)[0-9]{8}$',
+    //     };
+    //   }, $param['type_phone']);
+
+    //   $students->where('phone', 'regexp', implode('|', $patterns));
+    // }
 
     if (isset($param['status'])) {
       $students = $students->whereIn('status', $param['status']);
@@ -162,7 +175,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
 
   public function updateAndNotificationMedium()
   {
-    $this->model->with('courses','user')->chunk(100, function ($students) {
+    $this->model->with('courses', 'user')->chunk(100, function ($students) {
       $students->each(function ($student) {
         $courseCount = $student->courses->count();
         $totalScore = $student->courses->sum('pivot.score');
@@ -190,18 +203,18 @@ class StudentRepository extends BaseRepository implements StudentInterface
   public function updateScore($idStudent, $scoreCourse)
   {
     $student = $this->model->findOrFail($idStudent);
- 
+
     DB::beginTransaction();
     try {
       $syncData = collect($scoreCourse['courses'])
-      ->combine($scoreCourse['scores'])
-      ->mapWithKeys(function ($score, $courseId) {
-        return [$courseId => ['score' => $score]];
-      })
-      ->toArray();
- 
+        ->combine($scoreCourse['scores'])
+        ->mapWithKeys(function ($score, $courseId) {
+          return [$courseId => ['score' => $score]];
+        })
+        ->toArray();
+
       $student->courses()->sync($syncData);
- 
+
       DB::commit();
       return true;
     } catch (\Exception $e) {

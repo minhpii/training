@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LanguageController;
@@ -46,4 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('import-score', [ImportController::class, 'importScore']);
 
     Route::get('language/{language}', [LanguageController::class, 'index'])->name('language');
+
+    Route::get('chat', [ChatController::class, "index"])->name('chat.index');
+    Route::post('chat', [ChatController::class, "send"])->name('chat.send');
 });
