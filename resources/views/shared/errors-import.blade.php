@@ -3,9 +3,11 @@
     Swal.fire({
       title: 'Errors!',
       html: `
-        @foreach (Session::get('import_errors') as $failures)
-          <div>Row : {{ $failures->row()}} - Fails : {{ $failures->errors()[0] }}</div>
-        @endforeach
+        <ul>
+         @foreach (Session::get('import_errors') as $err)
+          <li>{{ $err }}</li>
+         @endforeach
+        </ul>
       `,
       icon: 'error',
       confirmButtonText: 'OK'

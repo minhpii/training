@@ -11,12 +11,13 @@ class ImportController extends Controller
 {
     public function importScore(ImportScoreRequest $request)
     {
-        try {
-            Excel::import(new ImportScore, $request->file('file'));
-            return redirect()->back()->with('success', 'Updated score successfully!');
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->back()->with('import_errors', $failures);
+        $import = new ImportScore();
+        Excel::import($import, $request->file('file'));
+        
+        if ($import->getErrors()) {
+            return redirect()->back()->with('import_errors', $import->getErrors());
         }
+
+        return redirect()->back()->with('success', 'Updated score successfully!');
     }
 }
