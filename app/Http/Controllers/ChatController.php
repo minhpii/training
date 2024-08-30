@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Message;
+use App\Events\MessageSend;
+use App\Http\Requests\MessageRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -12,9 +14,9 @@ class ChatController extends Controller
         return view('chat.index');
     }
 
-    public function send(Request $request)
+    public function send(MessageRequest $request)
     {
-        event(new Message($request->username, $request->message));
-        return redirect()->back();
+        broadcast(new MessageSend(Auth::user(), $request->input('message')));
+        return response()->json(['status' => 'Message Sent!']);
     }
 }

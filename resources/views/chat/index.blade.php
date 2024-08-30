@@ -1,72 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="row">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header"></div>
 
-    <div class="col-sm-6 offset-sm-3 my-2">
-      <input type="text" class="form-control" name="username" id="username" placeholder="Enter a user ..........">
-    </div>
-
-    <div class="col-sm-6 offset-sm-3">
-      <div class="box box-primary direct-chat direct-chat-primary">
-
-        <div class="box-body">
-          <div class="direct-chat-messages" id="messages"></div>
-        </div>
-
-        <div class="box-footer">
-          <form action="#" method="post" id="message_form">
-            <div class="input-group">
-              <input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
-              <span class="input-group-btn">
-                <button type="submit" id="send_message" class="btn btn-primary btn-flat">Send</button>
-              </span>
+          <div class="card-body">
+            <div class="row p-2">
+              <div class="col-9">
+                <div class="row">
+                  <div class="col-12 border rounded-lg p-3">
+                    <ul id="messages" class="list-unstyled overflow-auto" style="min-height: 45vh">
+                    </ul>
+                  </div>
+                  {!! Form::open(['method' => 'Post', 'route' => ['chat.send'], 'id' => 'message-form']) !!}
+                  <div class="row py-3">
+                    <div class="col-10">
+                      {!! Form::text('message', old('message'), [
+                          'class' => 'form-control',
+                          'placeholder' => 'Enter message...',
+                          'id' => 'message-input',
+                      ]) !!}
+                    </div>
+                    <div class="col-2">
+                      {!! Form::submit('Send', ['class' => 'btn btn-primary']) !!}
+                    </div>
+                  </div>
+                  {!! Form::close() !!}
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="card">
+                  <div class="card-header"><strong>User Online</strong></div>
+                  <div class="card-body">
+                    <ul id="users" class="list-unstyled overflow-auto text-info m-2" style="min-height: 45vh">
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
-
       </div>
     </div>
-
   </div>
 @endsection
-
-@push('styles')
-  <style>
-    .box {
-      position: relative;
-      border-radius: 3px;
-      background: #ffffff;
-      border-top: 3px solid #d2d6de;
-      margin-bottom: 20px;
-      width: 100%;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    }
-
-    .box.box-primary {
-      border-top-color: #3c8dbc;
-    }
-
-    .box-body {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 3px;
-      border-bottom-left-radius: 3px;
-      padding: 10px;
-    }
-
-    .direct-chat .box-body {
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-      position: relative;
-      overflow-x: hidden;
-      padding: 0;
-    }
-
-    .direct-chat-messages {
-      padding: 10px;
-      height: 150px;
-      overflow: auto;
-    }
-  </style>
-@endpush
