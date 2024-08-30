@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 use function App\Helpers\hasPassword;
@@ -22,6 +24,8 @@ class StudentSeeder extends Seeder
         $studentRole = Role::where("name", "student")->first();
         $prefixes = ['09', '08', '07', '03', '02'];
 
+        $courses = Course::all();
+
         for ($i = 0; $i < 5; $i++) {
             $user = User::create([
                 "name" => fake()->name,
@@ -31,7 +35,7 @@ class StudentSeeder extends Seeder
             $user->assignRole($adminRole);
         }
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $user1 = User::create([
                 "name" => fake()->name,
                 "email" => fake()->unique()->safeEmail,
@@ -50,6 +54,14 @@ class StudentSeeder extends Seeder
                 "status" => 0,
                 "department_id" => rand(1, 10),
             ]);
+
+            foreach ($courses as $course) {
+                DB::table('course_result')->insert([
+                    'student_id' => $user1->student->id,
+                    'course_id' => $course->id,
+                    'score' => rand(0, 10),
+                ]);
+            }
         }
     }
 }

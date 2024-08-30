@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CourseResultExport;
 use App\Http\Requests\ImportScoreRequest;
 use App\Imports\ImportScore;
 use Illuminate\Http\Request;
@@ -18,6 +19,11 @@ class ImportController extends Controller
             return redirect()->back()->with('import_errors', $import->getErrors());
         }
 
-        return redirect()->back()->with('success', 'Updated score successfully!');
+        return redirect()->back()->with('success', 'Import successfully!');
+    }
+
+    public function exportScore()
+    {
+        return Excel::download(new CourseResultExport, 'course_result.xlsx');
     }
 }

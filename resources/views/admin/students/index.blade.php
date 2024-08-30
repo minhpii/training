@@ -26,6 +26,15 @@
               {!! Form::submit('Import Score', ['class' => 'btn btn-success']) !!}
               {!! Form::close() !!}
             </div>
+            <div class="d-flex justify-content-end mt-2">
+              {!! Form::open([
+                  'url' => 'export-score',
+                  'method' => 'post',
+                  'class' => 'd-flex align-items-start',
+              ]) !!}
+              {!! Form::submit('Export Score', ['class' => 'btn btn-success']) !!}
+              {!! Form::close() !!}
+            </div>
           </div>
 
           <div class="card-body">

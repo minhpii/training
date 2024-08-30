@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('unregister-course/{id}', [ProfileController::class, 'unRegisterCourse']);
 
     Route::post('import-score', [ImportController::class, 'importScore']);
+    Route::post('export-score', [ImportController::class, 'exportScore']);
 
     Route::get('language/{language}', [LanguageController::class, 'index'])->name('language');
 

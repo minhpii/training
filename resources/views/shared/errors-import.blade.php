@@ -1,7 +1,7 @@
 @if (Session::has('import_errors'))
   <script>
     Swal.fire({
-      title: 'Errors!',
+      title: 'Warning!',
       html: `
         <ul>
          @foreach (Session::get('import_errors') as $err)
@@ -9,7 +9,7 @@
          @endforeach
         </ul>
       `,
-      icon: 'error',
+      icon: 'warning',
       confirmButtonText: 'OK'
     });
   </script>
