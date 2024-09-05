@@ -15,7 +15,7 @@ class CourseSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             Course::create([
-                "name"=> 'Courses ' . fake()->regexify('[A-Za-z0-9]{5}')
+                "name"=> 'Courses ' . fake()->unique()->regexify('[A-Za-z0-9]{5}')
             ]);
         }
     }
