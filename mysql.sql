@@ -25,15 +25,17 @@ COMMIT;
 
 UPDATE course_result
 SET score = 10
-WHERE student_id = (
+WHERE student_id IN (
 	SELECT student_id
-    FROM (
-        SELECT student_id, AVG(score) AS mediumscore
+    FROM students JOIN course_result ON students.id = course_result.student_id
+		GROUP BY students.id
+		HAVING AVG(course_result.score) = (
+        SELECT AVG(score) AS mediumscore
         FROM course_result
         GROUP BY student_id
-        ORDER BY mediumscore ASC
-        LIMIT 1
-    ) AS lowest_avg
+            ORDER BY mediumscore ASC
+            LIMIT 1
+    )
 );
 
 // Xóa tất cả thông tin của sinh viên tuổi >= 30;

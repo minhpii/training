@@ -39,7 +39,7 @@ class ImportScore extends DefaultValueBinder implements ToModel, WithHeadingRow,
         }
 
         if (!in_array($row['course_id'], $this->courseIds)) {
-            $this->errors[] =  "Row " . $this->currentRow . ": The course_id: " . $row['course_id'] . " invalid";
+            $this->errors[] = "Row " . $this->currentRow . ": The course_id: " . $row['course_id'] . " invalid";
             $isValid = false;
         }
 
@@ -59,13 +59,15 @@ class ImportScore extends DefaultValueBinder implements ToModel, WithHeadingRow,
 
     protected function upsertRows()
     {
-        DB::table('course_result')->upsert(
-            $this->rows,
-            ['student_id', 'course_id'],
-            ['score']
-        );
+        if (!$this->errors) {
+            DB::table('course_result')->upsert(
+                $this->rows,
+                ['student_id', 'course_id'],
+                ['score']
+            );
 
-        $this->rows = [];
+            $this->rows = [];
+        }
     }
 
     public function __destruct()

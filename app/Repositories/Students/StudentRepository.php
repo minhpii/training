@@ -56,12 +56,14 @@ class StudentRepository extends BaseRepository implements StudentInterface
     if (isset($param['type_phone'])) {
       $students->where(function ($query) use ($param) {
         foreach ($param['type_phone'] as $type) {
-          $pattern = match ($type) {
-            'viettel' => '^(03|09)[0-9]{8}$',
-            'mobie' => '^(02|08)[0-9]{8}$',
-            default => '^(07)[0-9]{8}$',
-          };
-          $query->orWhere('phone', 'regexp', $pattern);
+          if ($type != null) {
+            $pattern = match ($type) {
+              'viettel' => '^(03|09)[0-9]{8}$',
+              'mobie' => '^(02|08)[0-9]{8}$',
+              default => '^(07)[0-9]{8}$',
+            };
+            $query->orWhere('phone', 'regexp', $pattern);
+          }
         }
       });
     }
@@ -78,10 +80,22 @@ class StudentRepository extends BaseRepository implements StudentInterface
     //   $students->where('phone', 'regexp', implode('|', $patterns));
     // }
 
+
     if (isset($param['status'])) {
-      $students = $students->whereIn('status', $param['status']);
+      $students->where(function ($query) use ($param) {
+        foreach ($param['status'] as $sta) {
+          if ($sta != null) {
+            $query = $query->orWhere('status', $sta);
+          }
+        }
+      });
     }
 
+    // if (isset($param['status'])) {
+    //   $students = $students->whereIn('phone', $param['status']);
+    // }
+
+    
     $perPage = isset($param['record']) ? $param['record'] : 10;
 
     return $students->paginate($perPage);

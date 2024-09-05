@@ -9,14 +9,15 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class CourseResultExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return DB::table("course_result")->get();
     }
 
-    public function headings() :array {
-    	return ["Id", "student_id", "course_id", "score"];
+    public function headings(): array
+    {
+        return ["Id", "student_id", "course_id", "score"];
     }
 }

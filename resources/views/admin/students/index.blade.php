@@ -74,6 +74,7 @@
                 {!! Form::select('type_phone[]', $typePhones, old('type_phone[]'), [
                     'class' => 'form-control',
                     'multiple' => true,
+                    'placeholder' => '--- Choose phone ---',
                 ]) !!}
               </div>
               <div class="col-3">
@@ -93,6 +94,7 @@
                 {!! Form::select('status[]', ['0' => 'Studying', '1' => 'Finished', '2' => 'Learn Again'], old('type_phone[]'), [
                     'class' => 'form-control',
                     'multiple' => true,
+                    'placeholder' => '--- Choose status ---',
                 ]) !!}
               </div>
               <div class="col-3 mt-4">
